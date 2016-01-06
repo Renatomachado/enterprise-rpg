@@ -1,0 +1,63 @@
+<div class="container">
+    <h1 class="page-header">
+        Criar ato
+    </h1>
+
+    <md-content layout-padding>
+        <form name="userForm">
+            <div layout layout-md="column">
+                <md-input-container flex>
+                    <md-switch ng-model="act.anonymous" aria-label="Anônimo" id="anonymous-switch">
+                        Anônimo
+                    </md-switch>
+                </md-input-container>
+                <md-input-container flex>
+                    <label>Usuario</label>
+                    <md-select ng-model="act.user" id="user-select">
+                        <md-option ng-repeat="user in users" value="{{user._id}}">
+                            {{user.username}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+                <md-input-container flex>
+                    <label>Tipo</label>
+                    <md-select ng-model="act.type" id="type-select">
+                    <md-option ng-repeat="type in types" value="{{type.value}}">
+                        {{type.name}}
+                    </md-option>
+                </md-select>
+                </md-input-container>
+            </div>
+
+            <!--<div ng-if="act.type == 1" layout layout-md="column">-->
+                <!--<md-input-container flex>-->
+                    <!--<label>Nota</label>-->
+                    <!--<md-select ng-model="act.avaliation" id="grade-select">-->
+                        <!--<md-option ng-repeat="nota in goodGrades" value="{{nota.value}}">-->
+                            <!--{{nota.text}}-->
+                        <!--</md-option>-->
+                    <!--</md-select>-->
+                <!--</md-input-container>-->
+            <!--</div>-->
+
+            <!--<div ng-if="act.type == -1" layout layout-md="column">-->
+                <!--<md-input-container flex>-->
+                    <!--<label>Nota</label>-->
+                    <!--<md-select ng-model="act.avaliation" id="grade-select">-->
+                        <!--<md-option ng-repeat="nota in badGrades" value="{{nota.value}}">-->
+                            <!--{{nota.text}}-->
+                        <!--</md-option>-->
+                    <!--</md-select>-->
+                <!--</md-input-container>-->
+            <!--</div>-->
+            <div layout layout-md="column">
+                <md-input-container flex>
+                    <label>Comentário</label>
+                    <textarea id="comment-area" ng-model="act.comment" class="form-control" rows="3"></textarea>
+                </md-input-container>
+            </div>
+            <button class="btn btn-success" id="save-act-btn" ng-click="saveAct()">Salvar</button>
+            <a ui-sref="home" class="btn btn-default">Voltar</a>
+        </form>
+    </md-content>
+</div>

@@ -1,0 +1,35 @@
+<div class="container">
+    <h1 class="page-header">
+        Add funcionário
+    </h1>
+
+    <md-content layout-padding>
+        <form name="userForm">
+            <div layout layout-md="column">
+                <md-input-container flex>
+                    <label>Nome</label>
+                    <input ng-model="user.username">
+                </md-input-container>
+                <md-input-container flex>
+                    <label>Avatar</label>
+                    <input ng-model="user.avatar">
+                </md-input-container>
+
+            </div>
+            <div layout layout-md="column">
+                <md-input-container flex>
+                    <label>Login</label>
+                    <input ng-model="user.login">
+                </md-input-container>
+                <md-input-container flex>
+                    <label>Senha</label>
+                    <input type="password" ng-model="user.password">
+                </md-input-container>
+            </div>
+            <button class="btn btn-success" ng-click="saveUser()">Salvar</button>
+            <a ui-sref="users" class="btn btn-default">Voltar</a>
+        </form>
+    </md-content>
+
+
+</div>

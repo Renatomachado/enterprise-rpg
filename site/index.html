@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html ng-app="App">
+
+<head>
+    <base href="/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
+    <title>Entreprise RPG</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="/lib/angular-material/angular-material.css">
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/lib/angular-bootstrap/ui-bootstrap-csp.css">
+
+    <!-- angular & helpers scripts -->
+    <script src="/lib/angular/angular.js"></script>
+    <script src="/lib/angular-resource/angular-resource.js"></script>
+    <script src="/lib/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="/lib/jquery/dist/jquery.js"></script>
+    <script src="/lib/angular-animate/angular-animate.js"></script>
+    <script src="/lib/angular-aria/angular-aria.js"></script>
+    <script src="/lib/angular-material/angular-material.js"></script>
+    <script src="/lib/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="/lib/ngstorage/ngStorage.js"></script>
+    <script src="/lib/lodash/lodash.min.js"></script>
+    
+    <style type="text/css">
+        #main-content {
+            padding: 50px;
+        }
+    </style>
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<!--Navbar-->
+<div ng-if="LOGGED_USER" id="main-nav" ng-include="'/app/layout/navbar.html'"></div>
+
+<!--main content-->
+<div ui-view id="main-content"></div>
+
+<div class="clearfix"></div>
+
+<!--APP scripts-->
+<script src="/app/app.js"></script>
+<script src="/app/constants.js"></script>
+<script src="/app/filters.js"></script>
+<script src="/app/home/home.controller.js"></script>
+<script src="/app/users/users.controller.js"></script>
+<script src="/app/users/user.factory.js"></script>
+<script src="/app/act/act.controller.js"></script>
+<script src="/app/act/act.factory.js"></script>
+<script src="/app/login/login.controller.js"></script>
+<script src="/app/login/login.factory.js"></script>
+<script src="/app/common/toast.config.js"></script>
+</body>
+</html>

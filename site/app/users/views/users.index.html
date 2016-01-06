@@ -1,0 +1,21 @@
+<div class="container">
+    <h1>
+        Funcionários
+        <a ui-sref="usercreate" class="btn btn-success">Add funcionário</a>
+    </h1>
+
+    <md-content>
+        <md-list>
+            <md-list-item class="md-3-line" ng-repeat="user in users">
+                <img ng-src="{{user.avatar}}" class="md-avatar" alt="{{user.unsername}}" />
+                <div class="md-list-item-text" layout="column">
+                    <h2>{{ user.username }}</h2>
+                    <h3>{{ user.classe }}</h3>
+                    <p>Level {{ user.level }}</p>
+                </div>
+                <md-divider ></md-divider>
+            </md-list-item>
+
+        </md-list>
+    </md-content>
+</div>

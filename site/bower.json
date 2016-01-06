@@ -1,0 +1,30 @@
+{
+  "name": "site",
+  "authors": [
+    "Renato Machado <renato.zehh@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "/lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.8",
+    "angular-material": "~1.0.0-rc6",
+    "angular-ui-router": "~0.2.15",
+    "angular-resource": "~1.4.8",
+    "jquery": "~2.1.4",
+    "bootstrap": "~3.3.6",
+    "angular-bootstrap": "~0.14.3",
+    "ngstorage": "~0.3.10",
+    "lodash": "~3.10.1"
+  }
+}
