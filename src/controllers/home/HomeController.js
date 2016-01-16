@@ -1,16 +1,14 @@
-
+"use strict";
 module.exports = function(app) {
-  "use strict";
 
-  class HomeController extends app.controllers.BaseController {
+  var HomeController = {
 
-    index(req, res) {
+    index: function(req, res) {
       return res.json({
         message: 'Enterprise RPG funfando!'
       });
     }
-
-  }
+  };
 
   return HomeController;
 

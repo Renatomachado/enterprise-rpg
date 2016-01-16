@@ -2,15 +2,14 @@ module.exports = function(app) {
   
   var c = app.controllers,
       m = app.middlewares,
-      log = m.LogMiddleware;
+      log = m.LogMiddleware,
 
   //controllers
-  var logC = new c.log.LogsController(),
-      home = new c.home.HomeController(),
-      login =  new  c.login.LoginController(),
-      act = new c.act.ActController(),
-      user = new c.user.UserController();
-
+      logC = c.log.LogsController,
+      home = c.home.HomeController,
+      login =  c.login.LoginController,
+      act = c.act.ActController,
+      user = c.user.UserController;
 
   // To get all routes
   app.route('/rest/1/*')

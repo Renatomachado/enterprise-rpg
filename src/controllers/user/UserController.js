@@ -1,23 +1,23 @@
 "use strict";
-
 var crypto = require('crypto');
 
 module.exports = function (app) {
 
 	var User = app.models.User;
 
-	class UserController extends app.controllers.BaseController {
+	var UserController = {
 
-		index(req, res) {
+		index: function(req, res) {
 
-			User.find({}, function(err, users) {
-				if (err) { throw err };
-
+			User.find({}).then(function(err, users) {
 				res.json(users);
-			});
-		}
+			}).catch(function(err){
+				res.status(500);
+				res.json(err);
+			})
+		},
 
-		store(req, res) {
+		store: function(req, res) {
 
 			var user = new User();
 			user.username = req.body.username;
@@ -28,16 +28,17 @@ module.exports = function (app) {
 			user.classe = "Aprendiz";
 			user.exp = 0;
 
-			user.save(function(err) {
-				console.log(err);
-				if (err) { throw err }
+			user.save.then(function() {
 				res.json({
 					message: 'Success!'
 				});
+			}).catch(function(err){
+				res.status(500);
+				res.json(err);
 			});
 		}
 
-	}
+	};
 
 	return UserController;
 };

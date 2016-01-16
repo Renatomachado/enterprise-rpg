@@ -11,4 +11,4 @@ require('./configs/mongoose')(mongooseStringConn);
 
 http.createServer(app).listen(app.get('port'), function () {
     console.log('Enterprise RPG voando na porta '+ app.get('port') + ' xD');
-});	
+});

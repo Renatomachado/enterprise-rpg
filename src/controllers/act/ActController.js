@@ -1,25 +1,24 @@
 "use strict";
-var _ = require('lodash');
-var async = require('async');
-
+var _ = require('lodash'),
+	async = require('async');
 
 module.exports = function (app) {
 
-	var Act = app.models.Act;
-	var User = app.models.User;
+	var Act = app.models.Act,
+		User = app.models.User,
+		ActController = {
 
-	class ActController extends app.controllers.BaseController {
+		index: function(req, res) {
 
-		index(req, res) {
-
-			Act.find({}, function(err, acts) {
-				if (err) { throw err };
-
+			Act.find({}).then(function(acts) {
 				res.json(acts);
+			}).catch(function(err){
+				res.status(500);
+				res.json(err);
 			});
-		}
+		},
 
-		store(req, res) {
+		store: function(req, res) {
 
 			console.log(req.body);
 
@@ -32,103 +31,22 @@ module.exports = function (app) {
 			act.state = 'open';
 			act.isAnonymous = req.body.anonymous;
 
-			act.save(function(err) {
-				if (err) { throw err }
-
+			act.save().then(function() {
 				res.json({
 					message: 'Success!'
 				});
-
+			}).catch(function(err){
+				res.status(500);
+				res.json(err);
 			});
 
-		}
+		},
 
-		evaluate(req, res) {
-
-			var addExp = function(act) {
-
-				var user = {},
-					evaluations = act.evaluations;
-
-				var actPoints = 0,
-					actLimit = 0;
-				async.forEach(evaluations, function(ev, callback){
-					var usergrade = {};
-					usergrade.username = ev.userGrade;
-
-					User.findOne(usergrade, function(err, gradeUser){
-
-						actPoints += gradeUser.level * ev.gradeNum;
-						actLimit += gradeUser.level * 4;
-
-						callback();
-
-					});
-				}, function(){
-
-					console.log(actPoints);
-
-					var percent = actPoints / actLimit;
-
-					console.log('percent', percent);
-
-					user.username = act.username;
-					User.findOne(user, function(err, us){
-
-
-						console.log(us);
-
-						var needexp = us.level * 1000,
-							cardxp = (percent) * (needexp / 2);
-
-						console.log('card', cardxp);
-
-						if(act.type == 1){
-							us.exp += cardxp;
-
-							if(us.exp >= needexp){
-								us.level += 1;
-
-								if( us.level <= 10)
-									us.classe = 'Aprendiz';
-								if( us.level > 10 &&  us.level <= 20)
-									us.classe = 'Adepto';
-								if( us.level > 20 &&  us.level <= 30)
-									us.classe = 'Aventureiro';
-								if( us.level > 30 &&  us.level <= 40)
-									us.classe = 'Mestre';
-								if( us.level > 40 && us.level <= 50)
-									us.classe = 'Jedi';
-								if( us.level > 50){
-									us.level = 50;
-								}
-							}
-						}else{
-							us.exp -= cardxp;
-
-							if(us.exp < 0){
-								us.exp = 0;
-							}
-						}
-
-						us.save(function(err , leUser){
-
-							res.json({
-								message: 'Act fechado!',
-								obj: leUser
-							});
-
-						});
-
-					});
-				});
-			};
-
-
-			var obj = {
-				_id: req.params.id
-			};
-
+		evaluate: function(req, res) {
+			var _this = this,
+ 				obj = {
+					_id: req.params.id
+				};
 			Act.findOne(obj, function(err, act) {
 				if (err) {
 					res.json(err);
@@ -155,7 +73,7 @@ module.exports = function (app) {
 								}else {
 									if (act.state === 'closed') {
 
-										addExp(act, res);
+										_this.addExp(act, res);
 
 
 									} else {
@@ -165,17 +83,83 @@ module.exports = function (app) {
 							});
 						});
 					}
-
 				}
 			});
+		},
 
+		addExp: function(act) {
+			var user = {},
+					evaluations = act.evaluations,
+					actPoints = 0,
+					actLimit = 0;
+
+			async.forEach(evaluations, function(ev, callback){
+				var userGrade = {};
+				userGrade.username = ev.userGrade;
+
+				User.findOne(userGrade).exec().then(function(gradeUser){
+
+					actPoints += gradeUser.level * ev.gradeNum;
+					actLimit += gradeUser.level * 4;
+
+					callback();
+				});
+			}).then(function(){
+				var percent = actPoints / actLimit;
+
+				user.username = act.username;
+
+				User.findOne(user).exec().then(function(us){
+					var needExp = us.level * 1000,
+						cardExp = (percent) * (needExp / 2);
+
+					if(act.type == 1){
+						us.exp += cardExp;
+
+						if(us.exp >= needExp){
+							us.level += 1;
+
+							if( us.level <= 10)
+								us.classe = 'Aprendiz';
+							if( us.level > 10 &&  us.level <= 20)
+								us.classe = 'Adepto';
+							if( us.level > 20 &&  us.level <= 30)
+								us.classe = 'Aventureiro';
+							if( us.level > 30 &&  us.level <= 40)
+								us.classe = 'Mestre';
+							if( us.level > 40 && us.level <= 50)
+								us.classe = 'Jedi';
+							if( us.level > 50){
+								us.level = 50;
+							}
+						}
+					}else{
+						us.exp -= cardExp;
+						if(us.exp < 0){
+							us.exp = 0;
+						}
+					}
+					us.save().then(function(leUser){
+						res.json({
+							message: 'Act fechado!',
+							obj: leUser
+						});
+
+					}).catch(function(err){
+						res.status(500);
+						res.json(err);
+					});
+
+				}).catch(function(err){
+					res.status(500);
+					res.json(err);
+				});
+			}).catch(function(err){
+				res.status(500);
+				res.json(err);
+			});
 		}
-
-		addGrade(req, res) {
-
-		}
-
-	}
+	};
 
 	return ActController;
 };
