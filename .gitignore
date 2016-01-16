@@ -4,3 +4,4 @@ site/lib
 ./
 .idea/
 npm-debug.log.*
+**.log
