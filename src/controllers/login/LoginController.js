@@ -17,11 +17,11 @@ module.exports = function(app) {
             };
 
             User.findOne({login : userData.login}).select('+password').exec().then(function(user) {
-                console.log(user);
-                console.log(userData);
-
                 if(user && user.password === userData.password){
-                    res.json(user);
+                    res.json({
+                        username : user.username,
+                        login : user.login
+                    });
                 }else if(user && user.password !== userData.password) {
                     res.status(400);
                     res.json({
