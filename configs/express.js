@@ -1,8 +1,7 @@
 var express = require('express'),
     load = require('express-load'),
     bodyParser = require('body-parser'),
-    cookieParser = require('cookie-parser'),
-    session = require('express-session'),
+    cookieParser = require('cookie-parser')
     morgan = require('morgan'),
     _ = require('lodash'),
     CryptoHelper = require('../src/Helpers/CryptoHelper')();
@@ -15,19 +14,13 @@ module.exports = function() {
 
     app.set('port', APP_PORT);
 
-    // novos middlewares
+    //middlewares
     app.use(bodyParser.urlencoded({
         extended: true
     }));
     app.use(bodyParser.json());
     app.use(require('method-override')());
     app.use(cookieParser());
-
-    app.use(session({
-        secret: crypt.encrypt('$98as6q9eoi23ne$4qwej1121lkj234lk13251pwdsfd0g2er1wlnflsdnl1kn2sdgtetj2ee76urtygdsfwdfd'),
-        resave: true,
-        saveUninitialized: true
-    }));
 
     app.use(morgan('dev'));
 

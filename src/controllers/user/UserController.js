@@ -9,7 +9,7 @@ module.exports = function (app) {
 
 		index: function(req, res) {
 
-			User.find({}).then(function(err, users) {
+			User.find({}).exec().then(function(users) {
 				res.json(users);
 			}).catch(function(err){
 				res.status(500);
